@@ -28,7 +28,7 @@ LRESULT CALLBACK MainWindow::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 
 PCWSTR  MainWindow::ClassName() const { return L"El Window"; }
 
-BOOL MainWindow::Create(
+MainWindow::MainWindow(
 	PCWSTR lpWindowName,
 	DWORD dwStyle,
 	DWORD dwExStyle,
@@ -52,8 +52,7 @@ BOOL MainWindow::Create(
 		dwExStyle, ClassName(), lpWindowName, dwStyle, x, y,
 		nWidth, nHeight, hWndParent, hMenu, GetModuleHandle(NULL), this
 	);
-
-	return (m_hwnd ? TRUE : FALSE);
+	ShowWindow(m_hwnd, SW_SHOW);
 }
 
 
