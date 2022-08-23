@@ -1,62 +1,123 @@
-#include <iostream>
-#include <Windows.h>
-
-
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+#include <windows.h>
+template <class DERIVED_TYPE>
+class BaseWindow
 {
-	switch (uMsg)
+public:
+	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
-	case WM_CLOSE:
-		PostQuitMessage(0);//makes GetMessage evaluate to false
-	}
-	return DefWindowProc(hwnd, uMsg, wParam, lParam);
-}
+		DERIVED_TYPE* pThis = NULL;
 
-INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-                   PSTR lpCmdLine, INT nCmdShow)
+		if (uMsg == WM_NCCREATE)
+		{
+			CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
+			pThis = (DERIVED_TYPE*)pCreate->lpCreateParams;
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pThis);
+
+			pThis->m_hwnd = hwnd;
+		}
+		else
+		{
+			pThis = (DERIVED_TYPE*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		}
+		if (pThis)
+		{
+			return pThis->HandleMessage(uMsg, wParam, lParam);
+		}
+		else
+		{
+			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		}
+	}
+
+	BaseWindow() : m_hwnd(NULL) { }
+
+	BOOL Create(
+		PCWSTR lpWindowName,
+		DWORD dwStyle,
+		DWORD dwExStyle = 0,
+		int x = CW_USEDEFAULT,
+		int y = CW_USEDEFAULT,
+		int nWidth = CW_USEDEFAULT,
+		int nHeight = CW_USEDEFAULT,
+		HWND hWndParent = 0,
+		HMENU hMenu = 0
+	)
+	{
+		WNDCLASS wc = { 0 };
+
+		wc.lpfnWndProc = DERIVED_TYPE::WindowProc;
+		wc.hInstance = GetModuleHandle(NULL);
+		wc.lpszClassName = ClassName();
+
+		RegisterClass(&wc);
+
+		m_hwnd = CreateWindowEx(
+			dwExStyle, ClassName(), lpWindowName, dwStyle, x, y,
+			nWidth, nHeight, hWndParent, hMenu, GetModuleHandle(NULL), this
+		);
+
+		return (m_hwnd ? TRUE : FALSE);
+	}
+
+	HWND Window() const { return m_hwnd; }
+
+protected:
+
+	virtual PCWSTR  ClassName() const = 0;
+	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) = 0;
+
+	HWND m_hwnd;
+};
+
+
+class MainWindow : public BaseWindow<MainWindow>
 {
-	const auto pClassName = L"yeet";
-	WNDCLASSEX wc = {0};
-	wc.cbSize = sizeof(wc);
-	wc.style = CS_OWNDC;
-	wc.lpfnWndProc = DefWindowProc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hInstance = hInstance;
-	wc.hIcon = nullptr;
-	wc.hCursor = nullptr;
-	wc.hbrBackground = nullptr;
-	wc.lpszMenuName = nullptr;
-	wc.lpszClassName = pClassName;
-	wc.hIconSm = nullptr;
-	RegisterClassEx(&wc);
-
-	const HWND hwnd = CreateWindowEx(
-		0, // Optional window styles.
-		pClassName, // Window class
-		L"El Window", // Window text
-		WS_OVERLAPPEDWINDOW, // Window style
-
-		// Size and position
-		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-
-		nullptr, // Parent window    
-		nullptr, // Menu
-		hInstance, // Instance handle
-		nullptr // Additional application data
-	);
-	if (hwnd == nullptr)
+public:
+	PCWSTR  ClassName() const { return L"Sample Window Class"; }
+	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
-		return -1;
+		switch (uMsg)
+		{
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			return 0;
+
+		case WM_PAINT:
+		{
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(m_hwnd, &ps);
+			FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+			EndPaint(m_hwnd, &ps);
+		}
+		return 0;
+
+		default:
+			return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
+		}
+		return TRUE;
 	}
 
+};
 
-	ShowWindow(hwnd,SW_SHOW);
-	MSG msg;
-	//GetMessage is a blocking function and ill have to create other threads to handle image processing 
-	while (GetMessage(&msg, nullptr, 0, 0) > 0)
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg); //calls the window procedure of the window that is the target of the message
-	}
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
+{
+    MainWindow win;
+
+    if (!win.Create(L"Learn to Program Windows", WS_OVERLAPPEDWINDOW))
+    {
+        return 0;
+    }
+
+    ShowWindow(win.Window(), nCmdShow);
+
+    // Run the message loop.
+
+    MSG msg = { };
+    while (GetMessage(&msg, NULL, 0, 0)) //GetMessage is a blocking function and ill have to create other threads to handle image processing 
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);  //calls the window procedure of the window that is the target of the message
+    }
+
+    return 0;
 }
