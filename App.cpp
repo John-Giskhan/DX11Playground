@@ -21,13 +21,16 @@ int App::Run()
 		}
 		if (quit)
 			break;
-		NextFrame();
+		MakeNextFrame();
 	}
 	// Cleanup here
 	return 0;
 }
 
-void App::NextFrame()
+void App::MakeNextFrame()
 {
+	float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+
+	main_window.m_Graphics->ClearRenderTargetView(r, 0.0f, 0.0f, 1.0f);
 	main_window.m_Graphics->EndFrame();
 }

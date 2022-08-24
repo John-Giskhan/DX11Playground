@@ -9,6 +9,6 @@ public:
 
 private:
 	MainWindow main_window;
-	void NextFrame();
+	void MakeNextFrame();
 };
 
