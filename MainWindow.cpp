@@ -1,5 +1,4 @@
 #include "MainWindows.h"
-
 LRESULT CALLBACK MainWindow::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MainWindow* pThis = NULL;
@@ -53,6 +52,7 @@ MainWindow::MainWindow(
 		nWidth, nHeight, hWndParent, hMenu, GetModuleHandle(NULL), this
 	);
 	ShowWindow(m_hwnd, SW_SHOW);
+	m_Graphics = std::make_unique<Graphics>(m_hwnd);
 }
 
 
@@ -76,7 +76,7 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	default:
 		return DefWindowProc(m_hwnd, uMsg, wParam, lParam);
 	}
-	return TRUE;
+	return true;
 }
 
 HWND MainWindow::Window() const { return m_hwnd; }

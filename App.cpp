@@ -1,6 +1,7 @@
 #include "App.h"
 #include "MainWindows.h"
 #include <Windows.h>
+
 App::App() : main_window(L"el Window", WS_OVERLAPPEDWINDOW)
 {}
 int App::Run()
@@ -28,5 +29,5 @@ int App::Run()
 
 void App::NextFrame()
 {
-
+	main_window.m_Graphics->EndFrame();
 }

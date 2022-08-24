@@ -1,6 +1,7 @@
 #pragma once
 #include <Windows.h>
-
+#include "Graphics.h"
+#include <memory>
 class MainWindow
 {
 
@@ -22,6 +23,8 @@ public:
 	MainWindow& operator=(const MainWindow&) = delete;
 	HWND Window() const;
 	PCWSTR  ClassName() const;
+
+	std::unique_ptr<Graphics> m_Graphics;
 
 private:
 	HWND m_hwnd;
