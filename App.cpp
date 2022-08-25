@@ -29,8 +29,7 @@ int App::Run()
 
 void App::MakeNextFrame()
 {
-	float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 
-	main_window.m_Graphics->ClearRenderTargetView(r, 0.0f, 0.0f, 1.0f);
+	main_window.m_Graphics->ClearRenderTargetView(0.0f, 0.0f, 0.5f, 1.0f);
 	main_window.m_Graphics->EndFrame();
 }
