@@ -33,6 +33,12 @@
     <ClCompile Include="DX11impl\DX11SwapChain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Interfaces\IDevice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindows.h">
@@ -44,7 +50,7 @@
     <ClInclude Include="Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Interfaces\IDevice.h">
+    <ClInclude Include="Renderer\Interfaces\IDevice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DX11impl\DX11Device.h">
@@ -53,7 +59,10 @@
     <ClInclude Include="DX11impl\DX11SwapChain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Interfaces\ISwapChain.h">
+    <ClInclude Include="Renderer\Interfaces\ISwapChain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
