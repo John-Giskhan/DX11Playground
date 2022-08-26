@@ -1,7 +1,10 @@
 #pragma once
+#include "IDevice.h"
+#include <Windows.h>
 class ISwapChain
 {
-	static ISwapChain* Create();
+public:
+	static ISwapChain* Create(IDevice* device, HWND hwnd);
+
 	virtual ~ISwapChain();
 };
-

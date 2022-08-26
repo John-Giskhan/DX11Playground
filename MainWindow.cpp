@@ -52,7 +52,7 @@ MainWindow::MainWindow(
 		nWidth, nHeight, hWndParent, hMenu, GetModuleHandle(NULL), this
 	);
 	ShowWindow(m_hwnd, SW_SHOW);
-	m_Graphics = std::make_unique<Graphics>(m_hwnd);
+	m_Renderer = std::make_unique<Renderer>(m_hwnd);
 }
 
 
@@ -79,4 +79,4 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return true;
 }
 
-HWND MainWindow::Window() const { return m_hwnd; }
+HWND MainWindow::GetWindowHandle() const { return m_hwnd; }

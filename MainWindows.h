@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-#include "Graphics.h"
+#include "Renderer/Renderer.h"
 #include <memory>
 class MainWindow
 {
@@ -21,10 +21,10 @@ public:
 	);
 	MainWindow(const MainWindow&) = delete;
 	MainWindow& operator=(const MainWindow&) = delete;
-	HWND Window() const;
+	HWND GetWindowHandle() const;
 	PCWSTR  ClassName() const;
 
-	std::unique_ptr<Graphics> m_Graphics;
+	std::unique_ptr<Renderer> m_Renderer;
 
 private:
 	HWND m_hwnd;

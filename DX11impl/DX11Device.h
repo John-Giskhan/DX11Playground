@@ -1,15 +1,17 @@
 #pragma once
 #include "../Renderer/Interfaces/IDevice.h"
 #include <d3d11.h>
-#pragma comment(lib, "d3d11.lib")
+
 class DX11Device :
-    public IDevice
+	public IDevice
 {
-    // Inherited via Device
-     IDevice* Create();
-     virtual ~DX11Device();
+public:
+	DX11Device();
+	virtual ~DX11Device();
+	inline void* GetRawDevice() override { return device; }
+
 private:
-    ID3D11Device* device;
-    ID3D11DeviceContext* device_Context;
+	ID3D11Device* device = nullptr;
+	ID3D11DeviceContext* device_context = nullptr;
 };
 

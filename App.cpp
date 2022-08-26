@@ -21,15 +21,15 @@ int App::Run()
 		}
 		if (quit)
 			break;
-		MakeNextFrame();
+		NextFrame();
 	}
 	// Cleanup here
 	return 0;
 }
 
-void App::MakeNextFrame()
+void App::NextFrame()
 {
 
-	main_window.m_Graphics->ClearRenderTargetView(0.0f, 0.0f, 0.5f, 1.0f);
-	main_window.m_Graphics->EndFrame();
+	main_window.m_Renderer->ClearRenderTargetView(0.0f, 0.0f, 0.5f, 1.0f);
+	main_window.m_Renderer->EndFrame();
 }
