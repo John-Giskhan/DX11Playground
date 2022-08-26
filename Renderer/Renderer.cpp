@@ -6,8 +6,8 @@ Renderer::Renderer(HWND hwnd)
 {
 	p_Device = IDevice::Create();
 	p_SwapChain = ISwapChain::Create(p_Device, hwnd);
-	
-
+	p_Device_Context = IDeviceContext::Get(p_Device);
+	p_render_target_view = IRenderTargetView::Create();
 	//get the texture from the swap chain (back buffer) buffer #0
 
 }
@@ -19,12 +19,6 @@ void Renderer::EndFrame()
 
 Renderer::~Renderer()
 {
-	if (p_render_target_view != nullptr) {
-		p_render_target_view->Release();
-	}
-	if (p_SwapChain != nullptr) {
-		p_SwapChain->Release();
-	}
 }
 
 void Renderer::ClearRenderTargetView(float red, float green, float blue, float alpha)

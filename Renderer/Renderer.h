@@ -3,6 +3,8 @@
 #include <d3d11.h>
 #include "Interfaces/IDevice.h"
 #include "Interfaces/ISwapChain.h"
+#include "Interfaces/IDeviceContext.h"
+#include "Interfaces/IRenderTargetView.h"
 #pragma comment(lib, "d3d11.lib")
 
 enum class GraphicsAPI
@@ -25,8 +27,8 @@ public:
 private:
 	IDevice* p_Device = nullptr;
 	ISwapChain* p_SwapChain = nullptr;
-	/*IDeviceContext* p_Device_Context = nullptr;
-	IRenderTargetView* p_render_target_view = nullptr;*/
+	IDeviceContext* p_Device_Context = nullptr;
+	IRenderTargetView* p_render_target_view = nullptr;
 	static GraphicsAPI s_GraphicsAPI;
 };
 
