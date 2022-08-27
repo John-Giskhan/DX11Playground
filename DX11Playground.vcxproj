@@ -139,34 +139,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="DX11impl\DX11Buffer.cpp" />
     <ClCompile Include="DX11impl\DX11Device.cpp" />
     <ClCompile Include="DX11impl\DX11SwapChain.cpp" />
-    <ClCompile Include="DX11impl\DX11DeviceContext.cpp" />
-    <ClCompile Include="DX11impl\DX11RenderTargetView.cpp" />
-    <ClCompile Include="Renderer\Interfaces\IBuffer.cpp" />
-    <ClCompile Include="Renderer\Interfaces\IDeviceContext.cpp" />
-    <ClCompile Include="Renderer\Interfaces\IRenderTargetView.cpp" />
-    <ClCompile Include="Renderer\Interfaces\ISwapChain.cpp" />
-    <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="MainWindow.cpp" />
-    <ClCompile Include="Renderer\Interfaces\IDevice.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="DX11impl\DX11Buffer.h" />
-    <ClInclude Include="DX11impl\DX11DeviceContext.h" />
-    <ClInclude Include="DX11impl\DX11SwapChain.h" />
-    <ClInclude Include="DX11impl\DX11RenderTargetView.h" />
-    <ClInclude Include="Renderer\Interfaces\IBuffer.h" />
-    <ClInclude Include="Renderer\Interfaces\IDeviceContext.h" />
-    <ClInclude Include="Renderer\Interfaces\IRenderTargetView.h" />
-    <ClInclude Include="Renderer\Interfaces\ISwapChain.h" />
-    <ClInclude Include="Renderer\Interfaces\IDevice.h" />
+    <ClInclude Include="Interfaces\IDevice.h" />
     <ClInclude Include="DX11impl\DX11Device.h" />
-    <ClInclude Include="Renderer\Renderer.h" />
+    <ClInclude Include="DX11impl\DX11SwapChain.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="MainWindows.h" />
+    <ClInclude Include="Interfaces\ISwapChain.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
