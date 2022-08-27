@@ -5,10 +5,9 @@ class App
 {
 public:
 	App();
-	int Run();
+	int Run() const;
 
 private:
 	MainWindow main_window;
-	void NextFrame();
+	void NextFrame() const;
 };
-
