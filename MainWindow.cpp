@@ -1,12 +1,13 @@
 #include "MainWindows.h"
+
 LRESULT CALLBACK MainWindow::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	MainWindow* pThis = NULL;
+	MainWindow* pThis = nullptr;
 
 	if (uMsg == WM_NCCREATE)
 	{
-		CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
-		pThis = (MainWindow*)pCreate->lpCreateParams;
+		auto pCreate = (CREATESTRUCT*)lParam;
+		pThis = static_cast<MainWindow*>(pCreate->lpCreateParams);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pThis);
 
 		pThis->m_hwnd = hwnd;
@@ -19,13 +20,10 @@ LRESULT CALLBACK MainWindow::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 	{
 		return pThis->HandleMessage(uMsg, wParam, lParam);
 	}
-	else
-	{
-		return DefWindowProc(hwnd, uMsg, wParam, lParam);
-	}
+	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-PCWSTR  MainWindow::ClassName() const { return L"El Window"; }
+PCWSTR MainWindow::ClassName() { return L"El Window"; }
 
 MainWindow::MainWindow(
 	PCWSTR lpWindowName,
@@ -39,24 +37,24 @@ MainWindow::MainWindow(
 	HMENU hMenu
 )
 {
-	WNDCLASS wc = { 0 };
+	WNDCLASS wc = {0};
 
 	wc.lpfnWndProc = WindowProc;
-	wc.hInstance = GetModuleHandle(NULL);
+	wc.hInstance = GetModuleHandle(nullptr);
 	wc.lpszClassName = ClassName();
 
 	RegisterClass(&wc);
 
 	m_hwnd = CreateWindowEx(
 		dwExStyle, ClassName(), lpWindowName, dwStyle, x, y,
-		nWidth, nHeight, hWndParent, hMenu, GetModuleHandle(NULL), this
+		nWidth, nHeight, hWndParent, hMenu, GetModuleHandle(nullptr), this
 	);
 	ShowWindow(m_hwnd, SW_SHOW);
 	m_Renderer = std::make_unique<Renderer>(m_hwnd);
 }
 
 
-LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam) const
 {
 	switch (uMsg)
 	{
@@ -65,13 +63,13 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(m_hwnd, &ps);
-		FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
-		EndPaint(m_hwnd, &ps);
-	}
-	return 0;
+		{
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(m_hwnd, &ps);
+			FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+			EndPaint(m_hwnd, &ps);
+		}
+		return 0;
 
 	default:
 		return DefWindowProc(m_hwnd, uMsg, wParam, lParam);

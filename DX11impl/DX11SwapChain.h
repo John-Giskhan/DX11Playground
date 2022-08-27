@@ -1,17 +1,19 @@
 #pragma once
 #include "../Renderer/Interfaces/ISwapChain.h"
-#include <d3d11.h>
-#include <dxgi1_2.h>
+
 #include "DX11Device.h"
 
-class DX11SwapChain :
-    public ISwapChain
+
+class DX11SwapChain final :
+	public ISwapChain
 {
 public:
-    DX11SwapChain(DX11Device* device, HWND hwnd);
-    virtual ~DX11SwapChain();
+	DX11SwapChain(DX11Device* device);
+	void* GetRawSwapChain() override { return swap_chain; }
+	void Present() override;
+	~DX11SwapChain() override;
+	void* GetBackBuffer() const override;
 private:
 	HWND m_hwnd = nullptr;
-	IDXGISwapChain1* swap_chain = nullptr;
+	IDXGISwapChain* swap_chain = nullptr;
 };
-

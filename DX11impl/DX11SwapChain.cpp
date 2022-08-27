@@ -1,35 +1,29 @@
 #include "DX11SwapChain.h"
+
+#include "DX11Buffer.h"
 #include "DX11Device.h"
 
-DX11SwapChain::DX11SwapChain(DX11Device* device, HWND hwnd)
+DX11SwapChain::DX11SwapChain(DX11Device* device)
 {
-	m_hwnd = hwnd;
-	DXGI_SWAP_CHAIN_DESC1 sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.BufferCount = 1;
-	sd.Width = 0;
-	sd.Height = 0;
-	sd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	sd.SampleDesc.Count = 1;
-	sd.SampleDesc.Quality = 0;
-	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	swap_chain = static_cast<IDXGISwapChain*>(device->GetRawSwapChain());
+}
 
-	IDXGIFactory2* dxgiFactory = nullptr;
-	dxgiFactory->CreateSwapChainForHwnd(
-		(ID3D11Device*)device->GetRawDevice(),
-		hwnd,
-		&sd,
-		NULL,
-		NULL,
-		&swap_chain
-	);
+void DX11SwapChain::Present()
+{
+	swap_chain->Present(1u, 0u);
 }
 
 DX11SwapChain::~DX11SwapChain()
 {
-	if (swap_chain != nullptr) {
+	if (swap_chain != nullptr)
+	{
 		swap_chain->Release();
 	}
+}
+
+void* DX11SwapChain::GetBackBuffer() const
+{
+	ID3D11Resource* back_buffer = nullptr;
+	swap_chain->GetBuffer(0, __uuidof(ID3D11Resource), reinterpret_cast<void**>(&back_buffer));
+	return back_buffer;
 }

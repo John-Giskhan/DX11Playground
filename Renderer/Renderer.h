@@ -1,6 +1,5 @@
 #pragma once
 #include <Windows.h>
-#include <d3d11.h>
 #include "Interfaces/IDevice.h"
 #include "Interfaces/ISwapChain.h"
 #include "Interfaces/IDeviceContext.h"
@@ -19,10 +18,10 @@ public:
 	Renderer(HWND hwnd);
 	~Renderer();
 
-	inline static GraphicsAPI GetAPI() { return s_GraphicsAPI; }
-	inline static GraphicsAPI SetAPI(GraphicsAPI p_GraphicsAPI) { s_GraphicsAPI = p_GraphicsAPI; }
-	void EndFrame();
-	void ClearRenderTargetView(float red, float green, float blue, float alpha);
+	static GraphicsAPI GetAPI() { return s_GraphicsAPI; }
+	static GraphicsAPI SetAPI(GraphicsAPI p_GraphicsAPI) { s_GraphicsAPI = p_GraphicsAPI; }
+	void EndFrame() const;
+	void ClearRenderTargetView(float red, float green, float blue, float alpha) const;
 
 private:
 	IDevice* p_Device = nullptr;
@@ -31,4 +30,3 @@ private:
 	IRenderTargetView* p_render_target_view = nullptr;
 	static GraphicsAPI s_GraphicsAPI;
 };
-
