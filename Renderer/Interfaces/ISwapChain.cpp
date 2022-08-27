@@ -6,7 +6,7 @@ ISwapChain* ISwapChain::Get(IDevice* device)
 {
 	switch (Renderer::GetAPI())
 	{
-	case GraphicsAPI::DX11: return new DX11SwapChain(static_cast<DX11Device*>(device->GetRawDevice()));
+	case GraphicsAPI::DX11: return new DX11SwapChain(static_cast<IDXGISwapChain*>(device->GetRawSwapChain()));
 	case GraphicsAPI::None: return nullptr;
 	default:
 		return nullptr;

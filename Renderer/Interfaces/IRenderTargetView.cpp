@@ -15,6 +15,7 @@ IRenderTargetView* IRenderTargetView::Create(IDevice* p_device, ISwapChain* p_sw
 		return nullptr;
 	}
 }
+
 IRenderTargetView::~IRenderTargetView()
 {
 }

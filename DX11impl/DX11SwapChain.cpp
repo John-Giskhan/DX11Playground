@@ -1,11 +1,10 @@
 #include "DX11SwapChain.h"
 
 #include "DX11Buffer.h"
-#include "DX11Device.h"
 
-DX11SwapChain::DX11SwapChain(DX11Device* device)
+DX11SwapChain::DX11SwapChain(IDXGISwapChain* p_swap_chain)
 {
-	swap_chain = static_cast<IDXGISwapChain*>(device->GetRawSwapChain());
+	swap_chain = p_swap_chain;
 }
 
 void DX11SwapChain::Present()
@@ -21,7 +20,7 @@ DX11SwapChain::~DX11SwapChain()
 	}
 }
 
-void* DX11SwapChain::GetBackBuffer() const
+void* DX11SwapChain::GetBackBuffer()
 {
 	ID3D11Resource* back_buffer = nullptr;
 	swap_chain->GetBuffer(0, __uuidof(ID3D11Resource), reinterpret_cast<void**>(&back_buffer));

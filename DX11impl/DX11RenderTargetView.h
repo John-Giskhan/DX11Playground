@@ -9,7 +9,7 @@ class DX11RenderTargetView final :
 {
 public:
 	DX11RenderTargetView(DX11Device* device, DX11SwapChain* swapchain);
-	void* GetRawRenderTargetView() { return render_target_view; }
+	void* GetRawRenderTargetView() override { return render_target_view; }
 	~DX11RenderTargetView() override;
 private:
 	IDXGISwapChain* swap_chain = nullptr;

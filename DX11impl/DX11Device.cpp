@@ -1,7 +1,5 @@
 #include "DX11Device.h"
 
-#include <dxgi1_3.h>
-
 DX11Device::DX11Device(HWND hwnd)
 {
 	DXGI_SWAP_CHAIN_DESC sd;
