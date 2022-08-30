@@ -31,12 +31,20 @@ MainWindow::MainWindow(
 	DWORD dw_ex_style,
 	int x,
 	int y,
-	int n_width,
-	int n_height,
+	int width,
+	int height,
 	HWND h_wnd_parent,
 	HMENU h_menu
 )
 {
+	RECT wr{};
+	wr.left = 100;
+	wr.right = width + wr.left;
+	wr.top = 100;
+	wr.bottom = height + wr.top;
+	AdjustWindowRect(&wr,WS_CAPTION|WS_MINIMIZEBOX|WS_SYSMENU,FALSE);
+
+
 	WNDCLASS wc = {0};
 
 	wc.lpfnWndProc = WindowProc;
@@ -44,10 +52,9 @@ MainWindow::MainWindow(
 	wc.lpszClassName = ClassName();
 
 	RegisterClass(&wc);
-
 	m_hwnd = CreateWindowEx(
-		dw_ex_style, ClassName(), lp_window_name, dw_style, x, y,
-		n_width, n_height, h_wnd_parent, h_menu, GetModuleHandle(nullptr), this
+		dw_ex_style, ClassName(), lp_window_name, WS_CAPTION|WS_MINIMIZEBOX|WS_SYSMENU, x, y,
+		wr.right - wr.left, wr.bottom - wr.top, h_wnd_parent, h_menu, GetModuleHandle(nullptr), this
 	);
 	ShowWindow(m_hwnd, SW_SHOW);
 	m_renderer = std::make_unique<Renderer>(m_hwnd);

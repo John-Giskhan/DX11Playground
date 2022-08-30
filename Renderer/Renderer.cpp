@@ -17,7 +17,7 @@ Renderer::Renderer(HWND hwnd)
 	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	sd.BufferDesc.RefreshRate.Numerator = 0;
 	sd.BufferDesc.RefreshRate.Denominator = 0;
-	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	sd.Flags = 0;
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	sd.OutputWindow = hwnd;
 	sd.SampleDesc.Count = 1;
@@ -72,7 +72,7 @@ void Renderer::DrawTriangle()
 	constexpr Vertex vertices[] =
 	{
 		{0.0f, 0.5f},
-		{0.5f, 0.5f},
+		{0.5f, -0.5f},
 		{-0.5f, -0.5f}
 	};
 	WRL::ComPtr<ID3D11Buffer> p_vertex_buffer;
@@ -102,10 +102,10 @@ void Renderer::DrawTriangle()
 			//Create vertex shader
 			WRL::ComPtr<ID3D11VertexShader> p_vertex_shader;
 			p_device->CreateVertexShader(p_blob->GetBufferPointer(), p_blob->GetBufferSize(), nullptr,
-			&p_vertex_shader);
+			                             &p_vertex_shader);
 
 			//Bind vertex shader
-				p_device_context->VSSetShader(p_vertex_shader.Get(), nullptr, 0);
+			p_device_context->VSSetShader(p_vertex_shader.Get(), nullptr, 0);
 
 			//Create input layout of the vertices
 			constexpr D3D11_INPUT_ELEMENT_DESC ied[] = {
@@ -113,7 +113,7 @@ void Renderer::DrawTriangle()
 			};
 			WRL::ComPtr<ID3D11InputLayout> p_input_layout;
 			const HRESULT layout_hr = p_device->CreateInputLayout(ied, std::size(ied), p_blob->GetBufferPointer(),
-			p_blob->GetBufferSize(), &p_input_layout);
+			                                                      p_blob->GetBufferSize(), &p_input_layout);
 			if (SUCCEEDED(layout_hr))
 			{
 				//Bind input layout

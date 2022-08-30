@@ -2,7 +2,7 @@
 #include "MainWindows.h"
 #include <Windows.h>
 
-App::App() : main_window(L"el Window", WS_OVERLAPPEDWINDOW)
+App::App() : main_window(L"el Window", WS_OVERLAPPEDWINDOW, 0)
 {
 }
 

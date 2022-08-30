@@ -14,8 +14,8 @@ public:
 		DWORD dw_ex_style = 0,
 		int x = CW_USEDEFAULT,
 		int y = CW_USEDEFAULT,
-		int n_width = CW_USEDEFAULT,
-		int n_height = CW_USEDEFAULT,
+		int width = 800,
+		int height = 600,
 		HWND h_wnd_parent = nullptr,
 		HMENU h_menu = nullptr
 	);
