@@ -61,20 +61,9 @@ LRESULT MainWindow::HandleMessage(const UINT u_msg, const WPARAM w_param, const 
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
-
-	case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			const HDC hdc = BeginPaint(m_hwnd, &ps);
-			FillRect(hdc, &ps.rcPaint, reinterpret_cast<HBRUSH>((COLOR_WINDOW + 1)));
-			EndPaint(m_hwnd, &ps);
-		}
-		return 0;
-
 	default:
 		return DefWindowProc(m_hwnd, u_msg, w_param, l_param);
 	}
-	return true;
 }
 
 HWND MainWindow::GetWindowHandle() const { return m_hwnd; }

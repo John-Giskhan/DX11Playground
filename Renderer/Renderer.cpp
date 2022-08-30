@@ -1,4 +1,5 @@
 #include "Renderer.h"
+using namespace Microsoft;
 
 Renderer::Renderer(HWND hwnd)
 {
@@ -21,6 +22,7 @@ Renderer::Renderer(HWND hwnd)
 	constexpr UINT createDeviceFlags = 0;
 	//createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 	D3D_FEATURE_LEVEL feature_level;
+
 	constexpr D3D_FEATURE_LEVEL feature_level_array[3] = {
 		D3D_FEATURE_LEVEL_11_1, D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_1
 	};
@@ -39,9 +41,10 @@ Renderer::Renderer(HWND hwnd)
 		&p_device_context);
 
 	//get the texture from the swap chain (back buffer) buffer #0
-	ID3D11Resource* p_back_buffer = nullptr;
-	p_swap_chain->GetBuffer(0, __uuidof(ID3D11Resource), reinterpret_cast<void**>(&p_back_buffer));
-	p_device->CreateRenderTargetView(p_back_buffer, nullptr, &p_render_target_view);
+	WRL::ComPtr<ID3D11Resource> p_back_buffer = nullptr;
+	const HRESULT hr = p_swap_chain->GetBuffer(0, __uuidof(ID3D11Resource), &p_back_buffer);
+	if (SUCCEEDED(hr))
+		p_device->CreateRenderTargetView(p_back_buffer.Get(), nullptr, &p_render_target_view);
 }
 
 void Renderer::EndFrame() const
@@ -49,28 +52,8 @@ void Renderer::EndFrame() const
 	p_swap_chain->Present(1u, 0u);
 }
 
-Renderer::~Renderer()
-{
-	if (p_render_target_view != nullptr)
-	{
-		p_render_target_view->Release();
-	}
-	if (p_device_context != nullptr)
-	{
-		p_device_context->Release();
-	}
-	if (p_swap_chain != nullptr)
-	{
-		p_swap_chain->Release();
-	}
-	if (p_device != nullptr)
-	{
-		p_device->Release();
-	}
-}
-
 void Renderer::ClearRenderTargetView(const float red, const float green, const float blue, const float alpha) const
 {
-	const float color[4] = {red, green, blue, alpha};
-	p_device_context->ClearRenderTargetView(p_render_target_view, color);
+	const float color[4] = { red, green, blue, alpha };
+	p_device_context->ClearRenderTargetView(p_render_target_view.Get(), color);
 }

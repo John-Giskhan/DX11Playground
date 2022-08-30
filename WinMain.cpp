@@ -3,6 +3,6 @@
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
-	App app;
+	const App app;
 	return app.Run();
 }
