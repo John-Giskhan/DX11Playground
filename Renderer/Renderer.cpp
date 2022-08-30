@@ -19,8 +19,12 @@ Renderer::Renderer(HWND hwnd)
 	sd.Windowed = TRUE;
 	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
-	constexpr UINT createDeviceFlags = 0;
-	//createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+	UINT createDeviceFlags = 0;
+
+	// If the project is in a debug build, enable the debug layer.
+	#if defined(_DEBUG)
+        createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+	#endif
 	D3D_FEATURE_LEVEL feature_level;
 
 	constexpr D3D_FEATURE_LEVEL feature_level_array[3] = {

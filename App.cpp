@@ -32,5 +32,6 @@ int App::Run() const
 void App::NextFrame() const
 {
 	main_window.m_renderer->ClearRenderTargetView(0.0f,0.0f,0.5f,1.0f);
+	main_window.m_renderer->DrawTriangle();
 	main_window.m_renderer->EndFrame();
 }
